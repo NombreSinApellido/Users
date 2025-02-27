@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
+
 
 import com.irojas.demojwt.User.User;
 import com.irojas.demojwt.User.UserRepository;
@@ -25,17 +25,17 @@ public class ContactService {
         return false;
     }
 
-    public List<Contact> findByUsername(String username) {
-        return cRepository.findByUsername(username);
+    public List<Contact> findByUsername(String userEmail) {
+        return uRepository.getAllContactsByUsername(userEmail);
     }
 
-    public void createContact(String username, Contact contactinfo) {
-        Contact contact = uRepository.findByUsername(username)
+    public Optional<Contact> createContact(String username, Contact contactinfo) {
     
-        /* Optional<Object> contact = uRepository.findByUsername(username).map(user ->{
+        Optional<Contact> contact = uRepository.findByUsername(username).map(user ->{
             contactinfo.setUserEmail(user);
         return cRepository.save(contactinfo);
-        }).orElseThrow(()-> new Exception("no se encuentra")); */
+        });
+                return contact;
     }
 
 }

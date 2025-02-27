@@ -2,6 +2,7 @@ package com.irojas.demojwt.Contact;
 
 import java.lang.module.ResolutionException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,9 @@ public class ContactController {
 
     @PostMapping("/user/{username}/contacts")
     public ResponseEntity<?> createContact(@PathVariable String username, @RequestBody Contact contactinfo){
-        cService.createContact(username, contactinfo);
-        return new ResponseEntity<>(createContact(username, contactinfo))
+        Optional<Contact> contact = cService.createContact(username, contactinfo);
+        return new ResponseEntity<>(contact, HttpStatus.CREATED);
     }
+
+    
 }
