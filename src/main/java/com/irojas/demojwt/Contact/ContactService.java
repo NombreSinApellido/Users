@@ -1,5 +1,6 @@
 package com.irojas.demojwt.Contact;
 
+import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,19 @@ public class ContactService {
         return cRepository.save(contactinfo);
         });
                 return contact;
+    }
+
+    public Contact updateContact(long id, Contact contactinfo) {
+        Contact contact = cRepository.findById(id).orElse(null);
+        /* .orElseThrow(() -> new ResolutionException("Contact Id " + id + "not found")); */
+        if (contact != null) {
+            contact.setFirstName(contactinfo.getFirstName());
+            contact.setLastName(contactinfo.getLastName());
+            contact.setAlias(contactinfo.getAlias());
+            contact.setBankInfo(contactinfo.getBankInfo());
+            return cRepository.save(contact); 
+        }
+        return null;
     }
 
 }
