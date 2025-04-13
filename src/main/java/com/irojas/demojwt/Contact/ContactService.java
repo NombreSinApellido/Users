@@ -1,6 +1,5 @@
 package com.irojas.demojwt.Contact;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +21,14 @@ public class ContactService {
         Optional<User> user = uRepository.findByUsername(username);
         if (user.isPresent()) {
             return true;            
+        }
+        return false;
+    }
+
+    public boolean contactExist (Long id){
+        Optional<Contact> contact = cRepository.findById(id);
+        if (contact.isPresent()) {
+            return true;
         }
         return false;
     }
@@ -52,4 +59,9 @@ public class ContactService {
         return null;
     }
 
+    public void deleteContact(long id){
+        if (cRepository.findById(id).isPresent()) {
+            cRepository.deleteById(id);    
+        }
+    }
 }

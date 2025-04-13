@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,15 @@ public class ContactController {
         Contact contact = cService.updateContact(id, contactinfo);
         if (contact != null) {
             return new ResponseEntity<>(contact, HttpStatus.ACCEPTED);    
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/user/{username}/contacts/{id}")
+    public ResponseEntity<?> deleteContact(@PathVariable Long id, @PathVariable String username){
+        if (cService.usernameExist(username) && cService.contactExist(id)) {
+            cService.deleteContact(id);
+            return ResponseEntity.ok().build();    
         }
         return ResponseEntity.notFound().build();
     }
